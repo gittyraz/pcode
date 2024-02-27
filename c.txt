@@ -1,0 +1,48 @@
+exosl2-1 and 2-2
+configure vlan Red add port 12 tagged
+configure vlan Blue add port 12 tagged
+
+exosl2-3, 2-4
+configure vlan Green add port 12 tagged
+configure vlan Yellow add port 12 tagged
+
+exosl3-1
+create vlan Red tag 10
+create vlan Blue tag 20
+configure vlan Red add port 11
+configure vlan Blue add port 12
+configure vlan Red add port 1-2 tagged
+configure vlan Blue add port 1-2 tagged
+
+exosl3-2
+create vlan Red tag 10
+create vlan Blue tag 20
+configure vlan Green add port 11
+configure vlan Yellow add port 12
+configure vlan Green add port 1-2 tagged
+configure vlan Yellow add port 1-2 tagged
+
+Router 
+configure
+load /opt/vyatta/etc/config.boot.default
+commit
+save
+exit
+reboot
+
+configure
+set interface ethernet eth0 address 192.168.1.1/24
+set interface ethernet eth1 address 172.23.238.1/24
+set interface ethernet eth2 address 192.168.1.1/24
+set interface ethernet eth3 address 172.23.239.1/24
+commit
+
+create access-list permitLocalTraffic "source-address 192.168.1.2/32; destination-address 192.168.1.0/24;" "permit;"
+create access-list denySpecificServer "source-address 192.168.1.2/32; destination-address 172.23.238.3/32;" "deny; count denyServer;"
+create access-list permitRemoteNetwork "source-address 192.168.1.2/32; destination-address 172.23.238.0/24;" "permit;"
+create access-list denyCatchAll " " "deny; count denyAll;"
+configure access-list add permitLocalTraffic last ports 1 ingress
+configure access-list add denySpecificServer last ports 1 ingress
+configure access-list add permitRemoteNetwork last ports 1 ingress
+configure access-list add denyCatchAll last ports 1 ingress
+
