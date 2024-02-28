@@ -15,8 +15,8 @@ configure vlan Red add port 1-2 tagged
 configure vlan Blue add port 1-2 tagged
 
 exosl3-2
-create vlan Red tag 10
-create vlan Blue tag 20
+create vlan Green tag 10
+create vlan Yellow tag 20
 configure vlan Green add port 11
 configure vlan Yellow add port 12
 configure vlan Green add port 1-2 tagged
@@ -37,6 +37,7 @@ set interface ethernet eth2 address 192.168.1.1/24
 set interface ethernet eth3 address 172.23.239.1/24
 commit
 
+EXOSL3-1
 create access-list permitLocalTraffic "source-address 192.168.1.2/32; destination-address 192.168.1.0/24;" "permit;"
 create access-list denySpecificServer "source-address 192.168.1.2/32; destination-address 172.23.238.3/32;" "deny; count denyServer;"
 create access-list permitRemoteNetwork "source-address 192.168.1.2/32; destination-address 172.23.238.0/24;" "permit;"
