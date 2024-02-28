@@ -47,3 +47,6 @@ configure access-list add denySpecificServer last ports 1 ingress
 configure access-list add permitRemoteNetwork last ports 1 ingress
 configure access-list add denyCatchAll last ports 1 ingress
 
+To delete the ACL's:
+configure access-list delete permitremotenetwork ports 1
+
