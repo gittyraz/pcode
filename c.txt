@@ -52,3 +52,8 @@ configure access-list delete permitremotenetwork ports 1
 sh access-list port 1 ingress
 show access-list dynamic counter ingress
 
+#NAT
+set nat source rule 40 outbound-interface eth1
+set nat source rule 40 destination address 172.23.238.0/24
+set nat source rule 40 translation address masquerade
+show nat source rule 40
