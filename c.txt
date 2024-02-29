@@ -15,8 +15,8 @@ configure vlan Red add port 1-2 tagged
 configure vlan Blue add port 1-2 tagged
 
 exosl3-2
-create vlan Green tag 10
-create vlan Yellow tag 20
+create vlan Green tag 30
+create vlan Yellow tag 40
 configure vlan Green add port 11
 configure vlan Yellow add port 12
 configure vlan Green add port 1-2 tagged
