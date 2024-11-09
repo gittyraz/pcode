@@ -1,0 +1,63 @@
+enable  
+configure terminal 
+
+!DHCP pool for IT staff 
+ip dhcp pool IT 
+network 10.10.1.0.0 255.255.255.0  
+default-router 10.10.1.1  
+dns-server 1.1.1.1 
+
+!DHCP pool for SERVERS 
+ip dhcp pool SERVERS 
+network 10.10.2.0.0 255.255.255.0  
+default-router 10.10.2.1  
+dns-server 1.1.1.1 
+
+!DHCP pool for USERS 
+ip dhcp pool USERS 
+network 10.10.3.0 255.255.255.0  
+default-router 10.10.3.1  
+dns-server 1.1.1.1 
+
+!DHCP pool for GUEST 
+ip dhcp pool GUEST
+network 10.10.4.0 255.255.255.0  
+default-router 10.10.4.1  
+dns-server 1.1.1.1 
+
+!IT interface 
+interface fa1/0  
+ip address 10.10.1.1 255.255.255.0 
+ip nat inside 
+no shut 
+
+!SERVERS interface 
+interface fa2/0  
+ip address 10.10.2.1 255.255.255.0 
+ip nat inside 
+no shut 
+
+!USERS interface 
+interface fa3/0  
+ip address 10.10.3.1 255.255.255.0 
+ip nat inside 
+no shut 
+
+!GUEST interface 
+interface fa4/0 
+ip address 10.10.4.1 255.255.255.0 
+ip nat inside 
+no shut 
+
+!WAN interface 
+interface fa0/0 
+ip address dhcp 
+ip nat outside 
+no shut 
+
+ip nat pool NAT_POOL 192.168.122.10 192.168.122.100 netmask 255.255.255.0 
+access-list 1 permit 10.10.1.0 0.0.0.255 
+access-list 1 permit 10.10.2.0 0.0.0.255 
+access-list 1 permit 10.10.3.0 0.0.0.255 
+access-list 1 permit 10.10.4.0 0.0.0.255 
+ip nat inside source list 1 pool NAT_POOL overload 
